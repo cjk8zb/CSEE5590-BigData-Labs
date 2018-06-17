@@ -17,24 +17,22 @@ public class FriendReducer extends Reducer<Text, Text, Text, Text> {
 
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        Set<String> set = new HashSet<>();
+        List<String> list = new ArrayList<>();
 
-        super.reduce(key, values, context);
-//        Set<String> set = new HashSet<>();
-//        List<String> list = new ArrayList<>();
-//
-//        values.forEach(s -> {
-//            String string = s.toString();
-//            if (set.contains(string)) {
-//                list.add(string);
-//            } else {
-//                set.add(string);
-//            }
-//        });
-//
-//        list.sort(String::compareToIgnoreCase);
-//
-//        outValue.set(list.stream().reduce(String::concat).get());
-//
-////        context.write(key, outValue);
+        values.forEach(s -> {
+            String string = s.toString();
+            if (set.contains(string)) {
+                list.add(string);
+            } else {
+                set.add(string);
+            }
+        });
+
+        list.sort(String::compareToIgnoreCase);
+
+        outValue.set(list.stream().reduce(String::concat).get());
+
+        context.write(key, outValue);
     }
 }

@@ -25,14 +25,15 @@ public class FriendMapper extends Mapper <Text, Text, Text, Text> {
         for (int i = 0; i < friends.size(); i++) {
             ArrayList<String> others = (ArrayList<String>) friends.clone();
             String friend = others.remove(i);
-            outValue.set(String.join(" ", others));
             if (name.compareTo(friend) <= 0) {
                 outKey.set(name + friend);
             } else {
                 outKey.set(friend + name);
             }
-
-            context.write(outKey, outValue);
+            for (String other: others) {
+                outValue.set(other);
+                context.write(outKey, outValue);
+            }
         }
     }
 }
