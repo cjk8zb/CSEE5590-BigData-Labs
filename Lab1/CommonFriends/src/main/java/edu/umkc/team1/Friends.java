@@ -38,6 +38,8 @@ public class Friends {
 
         // Input
         FileInputFormat.addInputPath(job, input);
+
+        // KeyValueTextInputFormat will automatically split lines on the tab key.
         job.setInputFormatClass(KeyValueTextInputFormat.class);
 
         // Output

@@ -1,6 +1,5 @@
 package edu.umkc.team1;
 
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.StreamSupport;
 
 public class FriendReducer extends Reducer<Text, Text, Text, Text> {
 
@@ -17,22 +15,30 @@ public class FriendReducer extends Reducer<Text, Text, Text, Text> {
 
     @Override
     protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-        Set<String> set = new HashSet<>();
-        List<String> list = new ArrayList<>();
+        // Create storage
+        Set<String> foundFriends = new HashSet<>();
+        List<String> friendsInCommonList = new ArrayList<>();
 
-        values.forEach(s -> {
-            String string = s.toString();
-            if (set.contains(string)) {
-                list.add(string);
+        // Iterate through each friend
+        values.forEach(text -> {
+            String friend = text.toString();
+
+            // If the friend has already been found, add it to the common list
+            if (foundFriends.contains(friend)) {
+                friendsInCommonList.add(friend);
             } else {
-                set.add(string);
+                foundFriends.add(friend);
             }
         });
 
-        list.sort(String::compareToIgnoreCase);
+        // Sort the list
+        friendsInCommonList.sort(String::compareToIgnoreCase);
 
-        outValue.set(list.stream().reduce(String::concat).get());
+        // Concatinate each friend to a single string.
+        String friends = friendsInCommonList.stream().reduce(String::concat).get();
+        outValue.set(friends);
 
+        // Write the key value pair
         context.write(key, outValue);
     }
 }
