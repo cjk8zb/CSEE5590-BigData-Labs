@@ -34,6 +34,32 @@ When D visits B's profile, we can quickly look up (B D) and see that they have t
 
 ![Diagram](Diagram.svg)
 
+Input comes into the mapper as `key`-`value` pairs; `key` represents a user, and `value` represents a list of their friends. 
+
+> A -> B C D
+
+A new `key` is created by combining the user with a friend (alphabetically).
+
+> A B  
+> A C  
+> A D  
+
+The value is each remaining friend.
+
+> A B -> C  
+> A B -> D  
+> A C -> B  
+> A C -> D  
+> A D -> B  
+> A D -> C
+
+The reducer will then iterate through the new keys.
+
+> A B -> C D C D E
+
+If a friend is found twice, then it was found to be in common.
+
+> A B -> C D
 
 ## Part 2 
 ### Category: Product Catalogs and Playlists 
