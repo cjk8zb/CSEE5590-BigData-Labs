@@ -14,10 +14,11 @@ public class FriendReducer extends Reducer<Text, Text, Text, Text> {
     private final Text outValue = new Text();
 
     @Override
-    protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+    protected void reduce(Text key, Iterable<Text> values, Context context)
+            throws IOException, InterruptedException {
         // Create storage
         Set<String> foundFriends = new HashSet<>();
-        List<String> friendsInCommonList = new ArrayList<>();
+        List<String> commonList = new ArrayList<>();
 
         // Iterate through each friend
         values.forEach(text -> {
@@ -25,17 +26,17 @@ public class FriendReducer extends Reducer<Text, Text, Text, Text> {
 
             // If the friend has already been found, add it to the common list
             if (foundFriends.contains(friend)) {
-                friendsInCommonList.add(friend);
+                commonList.add(friend);
             } else {
                 foundFriends.add(friend);
             }
         });
 
         // Sort the list
-        friendsInCommonList.sort(String::compareToIgnoreCase);
+        commonList.sort(String::compareToIgnoreCase);
 
-        // Concatinate each friend to a single string.
-        String friends = friendsInCommonList.stream().reduce(String::concat).get();
+        // Concatenate each friend to a single string.
+        String friends = commonList.stream().reduce(String::concat).get();
         outValue.set(friends);
 
         // Write the key value pair

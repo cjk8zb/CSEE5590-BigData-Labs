@@ -34,6 +34,10 @@ When D visits B's profile, we can quickly look up (B D) and see that they have t
 
 ![Diagram](Diagram.svg)
 
+The class `Friends` sets up the Mapper and Reducer and contains the program's `main` function.
+
+![Friends](Screenshots/Part1/Friends.png)
+
 Input comes into the mapper as `key`-`value` pairs; `key` represents a user, and `value` represents a list of their friends. 
 
 > A -> B C D
@@ -53,6 +57,8 @@ The value is each remaining friend.
 > A D -> B  
 > A D -> C
 
+![FriendMapper](Screenshots/Part1/FriendMapper.png)
+
 The reducer will then iterate through the new keys.
 
 > A B -> C D C D E
@@ -60,6 +66,16 @@ The reducer will then iterate through the new keys.
 If a friend is found twice, then it was found to be in common.
 
 > A B -> C D
+
+![FriendReducer](Screenshots/Part1/FriendReducer.png)
+
+Runing the program will load the contents of the `input` directory.
+
+![Input](Screenshots/Part1/Input.png)
+
+The results of the map/reduce operation is saved to the `output` directory.
+
+![Output](Screenshots/Part1/Output.png)
 
 ## Part 2 
 ### Category: Product Catalogs and Playlists 

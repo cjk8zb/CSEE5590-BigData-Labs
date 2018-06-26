@@ -3,12 +3,10 @@ package edu.umkc.team1;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
@@ -16,7 +14,8 @@ import java.io.IOException;
 
 public class Friends {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+    public static void main(String[] args)
+            throws IOException, ClassNotFoundException, InterruptedException {
         Path input = new Path(args[0]);
         Path output = new Path(args[1]);
 
@@ -24,7 +23,7 @@ public class Friends {
         Configuration conf = new Configuration(true);
 
         // Create job
-        Job job = new Job(conf, "MultiplyMatrix");
+        Job job = new Job(conf, "Friends");
         job.setJarByClass(Friends.class);
 
         // Setup MapReduce
@@ -39,7 +38,7 @@ public class Friends {
         // Input
         FileInputFormat.addInputPath(job, input);
 
-        // KeyValueTextInputFormat will automatically split lines on the tab key.
+        // KeyValueTextInputFormat will automatically split lines on the tab key
         job.setInputFormatClass(KeyValueTextInputFormat.class);
 
         // Output
