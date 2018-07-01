@@ -1,1 +1,1 @@
-See the [Lab 2 Wiki](wiki/Lab-2)
+See the [Lab 2 Wiki](https://github.com/cjk8zb/CSEE5590-Labs/wiki/Lab-2)
